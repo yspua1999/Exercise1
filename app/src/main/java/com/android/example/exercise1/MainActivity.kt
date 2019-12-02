@@ -7,6 +7,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import org.w3c.dom.Text
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import java.text.DecimalFormat
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,13 +37,14 @@ class MainActivity : AppCompatActivity() {
         val interest = findViewById<TextView>(R.id.textViewInterest)
         val repay = findViewById<TextView>(R.id.textViewMonthlyRepayment)
 
+        val decimalFormat = DecimalFormat("#.00")
         val calLoan = carPrice.text.toString().toDouble() - downPayment.text.toString().toDouble()
         val calInterest = calLoan * (interestRate.text.toString().toDouble() / 100) * loanPeriod.text.toString().toDouble()
         val calRepay = ((calLoan + calInterest) / loanPeriod.text.toString().toDouble() / 12)
 
-        loan.text = (resources.getString(R.string.loan) + " RM " + calLoan)
-        interest.text = (resources.getString(R.string.interest) + " RM " + calInterest)
-        repay.text = (resources.getString(R.string.monthly_repayment) + " RM " + calRepay)
+        loan.text = (resources.getString(R.string.loan) + " RM " + decimalFormat.format(calLoan))
+        interest.text = (resources.getString(R.string.interest) + " RM " + decimalFormat.format(calInterest))
+        repay.text = (resources.getString(R.string.monthly_repayment) + " RM " + decimalFormat.format(calRepay))
     }
 
     private fun resetFunction()
